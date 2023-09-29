@@ -1,0 +1,15 @@
+{
+  "name": "book-management-system",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Siraphat-ohm/book-management-system.git",
+  "author": "Siraphat-ohm <siraphat975@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "8.0.0",
+    "inquirer-select-line": "^1.1.3"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3"
+  }
+}
