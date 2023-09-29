@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import controller from "./controller";
 import menu from "./question/menu";
 
-let books = [ 
+const books = [ 
     {
         title: "nameless monster",
         author: "Emil Scherbe",
@@ -13,7 +13,7 @@ let books = [
 
 const main = async() => {
     try {
-        const answer = await inquirer.prompt([ menu ]);
+        const answer = await inquirer.prompt([ menu.menu ]);
         if ( answer['action'] == 'addBook' ) {
             controller.addBook( books, main );
         } else if ( answer['action'] == 'viewBooks' ) {
@@ -22,9 +22,11 @@ const main = async() => {
             controller.editBook( books, main );
         } else if ( answer['action'] == 'delBook' ) {
             controller.delBook( books, main );
+        } else {
+            console.log( "Bye :) ")
         }
     } catch (error) {
-        
+        console.error("An error occurred:", error);
     }
 }
 

@@ -6,8 +6,7 @@
   "author": "Siraphat-ohm <siraphat975@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "inquirer": "8.0.0",
-    "inquirer-select-line": "^1.1.3"
+    "inquirer": "8.0.0"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.3"

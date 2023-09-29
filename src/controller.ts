@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import book from "./type";
+import { book, confirm, select }  from "./type";
 import bookQuesion from "./question/book";
 import common from "./question/common";
 
@@ -7,7 +7,7 @@ const addBook = async( books:book[], callback: Function ) => {
     try {
         const newBook = await inquirer.prompt<book>([ bookQuesion.title, bookQuesion.author, bookQuesion.year, bookQuesion.price ]);
         books.push( newBook );
-        const anotherBook = await inquirer.prompt([ common.keepUp( "Do you want add another book ? " ) ]);
+        const anotherBook = await inquirer.prompt<confirm>([ common.keepUp( "Do you want add another book ? " ) ]);
         if ( anotherBook.status ) {
             console.clear();
             addBook(  books, callback );
@@ -24,8 +24,14 @@ const addBook = async( books:book[], callback: Function ) => {
 
 const viewBooks = async( books:book[], callback: Function) => {
     try {
-        books.forEach( book => console.log(book));
-        const confirm = await inquirer.prompt([ common.keepUp( "Do you want exit ? " ) ]);
+        books.forEach( book => {
+            console.log("title: ",book.title);
+            console.log("author: ", book.author);
+            console.log("year: ", book.year);
+            console.log("price: ",book.price);
+            console.log("---------------------------") 
+        });
+        const confirm = await inquirer.prompt<confirm>([ common.keepUp( "Do you want exit ? " ) ]);
         if ( confirm.status ) {
             console.clear();
             callback();
@@ -43,8 +49,8 @@ const viewBooks = async( books:book[], callback: Function) => {
 const editBook = async( books: book[], callback: Function ) => {
     try {
         const titles = books.map( book => book.title );
-        const select = await inquirer.prompt([ common.selectBook( "Select the book you want to edit ? ", titles ) ]);
-        const index = books.findIndex( book => book.title === select.name );
+        const select = await inquirer.prompt<select>([ common.selectBook( "Select the book you want to edit ? ", titles ) ]);
+        const index = books.findIndex( book => book.title === select.title );
         const newBook = await inquirer.prompt<book>([ bookQuesion.title, bookQuesion.author, bookQuesion.year, bookQuesion.price ]);
         books.splice(index, 1);
         books.push( newBook );
@@ -65,13 +71,13 @@ const editBook = async( books: book[], callback: Function ) => {
 const delBook = async( books: book[], callback: Function ) => {
     try {
         const titles = books.map( book => book.title );
-        const select = await inquirer.prompt([ common.selectBook( "Selelct the book you want to delete ? ", titles )]);
-        const index = books.findIndex( book => book.title === select.name );
-        const confirm = await inquirer.prompt([ common.keepUp( "Do you want to delete this book ? " ) ]);
+        const select = await inquirer.prompt<select>([ common.selectBook( "Selelct the book you want to delete ? ", titles )]);
+        const index = books.findIndex( book => book.title === select.title );
+        const confirm = await inquirer.prompt<confirm>([ common.keepUp( "Do you want to delete this book ? " ) ]);
         if ( confirm.status ) {
             console.clear();
             books.splice(index, 1);
-            const keepUp = await inquirer.prompt([ common.keepUp( "Do you delete another book ? " )]);
+            const keepUp = await inquirer.prompt<confirm>([ common.keepUp( "Do you delete another book ? " )]);
             if ( keepUp.status && books.length > 0 ) {
                 delBook( books, callback );
             } else {

@@ -1,8 +1,14 @@
-interface book {
+export interface book {
     title: string,
     author: string,
     year: number,
     price: number
 }
 
-export default book
+export interface confirm {
+    status: boolean
+}
+
+export interface select {
+    title: string
+}
